@@ -15,13 +15,17 @@
  */
 'use strict';
 var React = require('react');
-
 var ReactPropTypes = React.PropTypes;
+var createMessage = require('../actions/createMessage');
 
 var MessageListItem = React.createClass({
 
     propTypes: {
         message: ReactPropTypes.object
+    },
+
+    contextTypes: {
+        executeAction: React.PropTypes.func.isRequired
     },
 
     /**
@@ -142,7 +146,7 @@ var MessageListItem = React.createClass({
         require('debug')('  > MessageListItem')('render', this.props);
         var message = this.props.message;
         return (
-            <li className="message-list-item">
+            <li className="message-list-item" onClick={this._onClickMessage}>
                 <h5 className="message-author-name">{message.authorName}</h5>
                 <div className="message-time">
                     {(new Date(message.timestamp)).toTimeString()}
@@ -150,6 +154,15 @@ var MessageListItem = React.createClass({
                 <div className="message-text">{message.text}</div>
             </li>
         );
+    },
+
+    _onClickMessage: function(event, value) {
+        console.log(this.props);
+        this.context.executeAction(createMessage, {
+            // m_id   : this.props.message.m_id.trim(),
+            author : this.props.message.authorName.trim(),
+            text   : this.props.message.text.trim()
+        });
     }
 
 });
