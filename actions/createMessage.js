@@ -8,12 +8,15 @@ var ThreadStore = require('../stores/ThreadStore');
 
 module.exports = function (context, payload, done) {
     var threadStore = context.getStore(ThreadStore);
+
     var message = threadStore.createMessage({
-        timestamp: Date.now(),
+        timestamp : Date.now(),
+        m_id      : payload.m_id,
         authorName: payload.author,
-        isRead: true,
-        text: payload.text
+        isRead    : true,
+        text      : payload.text
     });
+
     debug('dispatching RECEIVE_MESSAGES', message);
     context.dispatch('RECEIVE_MESSAGES', [message]);
     context.service.create('message', message, {}, function (err) {

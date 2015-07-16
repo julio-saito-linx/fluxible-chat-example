@@ -4,6 +4,7 @@
  */
 'use strict';
 var createStore = require('fluxible/addons').createStore;
+var debug = require('debug')('ThreadStore');
 
 
 var ThreadStore = createStore({
@@ -56,8 +57,11 @@ var ThreadStore = createStore({
         return this.get(this.getCurrentID());
     },
     createMessage: function(details) {
+        debug('createMessage', details);
+        var m_id_current = details.m_id || String('m_' + details.timestamp);
+        debug('createMessage - m_id_current', m_id_current);
         return {
-            id: String('m_' + details.timestamp),
+            id: m_id_current,
             threadID: this.getCurrentID(),
             threadName: String(this.getCurrentThreadName()),
             authorName: String(details.authorName),

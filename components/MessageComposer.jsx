@@ -26,6 +26,7 @@ var MessageComposer = React.createClass({
 
     getInitialState: function() {
         return {
+            m_id: null,
             author: 'Hendrix',
             text: ''
         };
@@ -35,7 +36,13 @@ var MessageComposer = React.createClass({
         require('debug')('  > MessageComposer')('render', this.props);
         return (
             <div>
-                <input
+                m_id: <input
+                    className="message-composer-m_id"
+                    name="m_id"
+                    value={this.state.m_id}
+                    onChange={this._onChangeMessageId}
+                />
+                author: <input
                     className="message-composer-author"
                     name="author"
                     value={this.state.author}
@@ -52,6 +59,9 @@ var MessageComposer = React.createClass({
         );
     },
 
+    _onChangeMessageId: function(event, value) {
+        this.setState({m_id: event.target.value});
+    },
     _onChangeAuthor: function(event, value) {
         this.setState({author: event.target.value});
     },
@@ -64,12 +74,11 @@ var MessageComposer = React.createClass({
             event.preventDefault();
             event.stopPropagation();
 
-            var text = this.state.text.trim();
-            var author = this.state.author.trim();
-            if (text) {
+            if (this.state.text.trim()) {
                 this.context.executeAction(createMessage, {
-                    author: author,
-                    text: text
+                    m_id   : this.state.m_id.trim(),
+                    author : this.state.author.trim(),
+                    text   : this.state.text.trim()
                 });
             }
             this.setState({text: ''});

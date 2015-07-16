@@ -5,6 +5,7 @@
 'use strict';
 var createStore = require('fluxible/addons').createStore;
 var ThreadStore = require('./ThreadStore');
+var debug = require('debug')('MessageStore');
 
 
 var MessageStore = createStore({
@@ -18,6 +19,7 @@ var MessageStore = createStore({
         this.sortedByDate = [];
     },
     receiveMessages: function (messages) {
+        debug('messages', messages);
         var self = this;
         messages.forEach(function (message) {
             self.messages[message.id] = message;
