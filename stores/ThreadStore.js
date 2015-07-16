@@ -11,6 +11,7 @@ var ThreadStore = createStore({
     storeName: 'ThreadStore',
     handlers: {
         'RECEIVE_MESSAGES': 'receiveMessages',
+        'REMOVE_MESSAGE': 'receiveMessages',
         'OPEN_THREAD': 'openThread'
     },
     initialize: function () {
@@ -68,6 +69,12 @@ var ThreadStore = createStore({
             timestamp: parseInt(details.timestamp, 10),
             text: String(details.text),
             isRead: !!details.isRead
+        };
+    },
+    removeMessage: function(details) {
+        debug('removeMessage', details);
+        return {
+            id: details.m_id
         };
     },
     receiveMessages: function (messages) {

@@ -17,6 +17,7 @@
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var createMessage = require('../actions/createMessage');
+var removeMessage = require('../actions/removeMessage');
 
 var MessageListItem = React.createClass({
 
@@ -149,6 +150,7 @@ var MessageListItem = React.createClass({
             <li className="message-list-item">
                 <h5 className="message-author-name">{message.authorName}</h5>
                 <button onClick={this._onClickDuplicate}>duplicate</button>
+                <button onClick={this._onClickRemove}>remove</button>
                 <div className="message-time">
                     {(new Date(message.timestamp)).toTimeString()}
                 </div>
@@ -158,11 +160,16 @@ var MessageListItem = React.createClass({
     },
 
     _onClickDuplicate: function(event, value) {
-        console.log(this.props);
         this.context.executeAction(createMessage, {
             // m_id   : this.props.message.m_id.trim(),
             author : this.props.message.authorName.trim(),
             text   : this.props.message.text.trim()
+        });
+    },
+
+    _onClickRemove: function(event, value) {
+        this.context.executeAction(removeMessage, {
+            m_id   : this.props.message.id
         });
     }
 

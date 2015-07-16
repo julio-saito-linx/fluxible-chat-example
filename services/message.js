@@ -83,8 +83,17 @@ module.exports = {
         setTimeout(function () {
             callback(null, _messages);
         }, 10);
+    },
+    delete: function(req, resource, params, config, callback) {
+        _messages = _messages.filter(function(item) {
+            if (params.id !== item.id) {
+                return item;
+            }
+        });
+        setTimeout(function () {
+            callback(null, _messages);
+        }, 10);
     }
-    // update: function(resource, params, body, config, callback) {},
-    // delete: function(resource, params, config, callback) {}
 
+    // update: function(resource, params, body, config, callback) {},
 };

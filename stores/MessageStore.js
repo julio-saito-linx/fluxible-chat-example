@@ -12,14 +12,15 @@ var MessageStore = createStore({
     storeName: 'MessageStore',
     handlers: {
         'RECEIVE_MESSAGES': 'receiveMessages',
-        'OPEN_THREAD': 'openThread'
+        'REMOVE_MESSAGE'  : 'receiveMessages',
+        'OPEN_THREAD'     : 'openThread'
     },
     initialize: function () {
         this.messages = {};
         this.sortedByDate = [];
     },
     receiveMessages: function (messages) {
-        debug('messages', messages);
+        debug('receiveMessages', messages);
         var self = this;
         messages.forEach(function (message) {
             self.messages[message.id] = message;
