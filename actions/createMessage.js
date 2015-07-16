@@ -10,7 +10,7 @@ module.exports = function (context, payload, done) {
     var threadStore = context.getStore(ThreadStore);
     var message = threadStore.createMessage({
         timestamp: Date.now(),
-        authorName: 'Bill', // hard coded for the example
+        authorName: payload.author,
         isRead: true,
         text: payload.text
     });

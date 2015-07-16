@@ -25,22 +25,36 @@ var MessageComposer = React.createClass({
     },
 
     getInitialState: function() {
-        return {text: ''};
+        return {
+            author: 'Hendrix',
+            text: ''
+        };
     },
 
     render: function() {
         require('debug')('  > MessageComposer')('render', this.props);
         return (
-            <textarea
-                className="message-composer"
-                name="message"
-                value={this.state.text}
-                onChange={this._onChange}
-                onKeyDown={this._onKeyDown}
-            />
+            <div>
+                <input
+                    className="message-composer-author"
+                    name="author"
+                    value={this.state.author}
+                    onChange={this._onChangeAuthor}
+                />
+                <textarea
+                    className="message-composer"
+                    name="message"
+                    value={this.state.text}
+                    onChange={this._onChange}
+                    onKeyDown={this._onKeyDown}
+                />
+            </div>
         );
     },
 
+    _onChangeAuthor: function(event, value) {
+        this.setState({author: event.target.value});
+    },
     _onChange: function(event, value) {
         this.setState({text: event.target.value});
     },
@@ -51,8 +65,10 @@ var MessageComposer = React.createClass({
             event.stopPropagation();
 
             var text = this.state.text.trim();
+            var author = this.state.author.trim();
             if (text) {
                 this.context.executeAction(createMessage, {
+                    author: author,
                     text: text
                 });
             }
