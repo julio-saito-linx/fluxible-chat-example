@@ -146,8 +146,9 @@ var MessageListItem = React.createClass({
         require('debug')('  > MessageListItem')('render', this.props);
         var message = this.props.message;
         return (
-            <li className="message-list-item" onClick={this._onClickMessage}>
+            <li className="message-list-item">
                 <h5 className="message-author-name">{message.authorName}</h5>
+                <button onClick={this._onClickDuplicate}>duplicate</button>
                 <div className="message-time">
                     {(new Date(message.timestamp)).toTimeString()}
                 </div>
@@ -156,7 +157,7 @@ var MessageListItem = React.createClass({
         );
     },
 
-    _onClickMessage: function(event, value) {
+    _onClickDuplicate: function(event, value) {
         console.log(this.props);
         this.context.executeAction(createMessage, {
             // m_id   : this.props.message.m_id.trim(),

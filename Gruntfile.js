@@ -10,17 +10,12 @@ module.exports = function (grunt) {
             }
         },
         copy: {
-            todo: {
+            css: {
                 files: [{
                     expand: true,
-                    cwd: 'todo/assets/todomvc-common/',
-                    src: ['*.*'],
-                    dest: 'todo/build/'
-                }, {
-                    expand: true,
-                    cwd: 'todo/assets/',
+                    cwd: './static/',
                     src: ['styles.css'],
-                    dest: 'todo/build/'
+                    dest: './build/css/'
                 }]
             }
         },
@@ -29,7 +24,7 @@ module.exports = function (grunt) {
                 script: './server.js',
                 options: {
                     ignore: ['build/**'],
-                    ext: 'js,jsx'
+                    ext: 'js,jsx,css'
                 }
             }
         },
@@ -72,6 +67,5 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-webpack');
 
-    grunt.registerTask('default', ['clean', 'concurrent:dev']);
-    grunt.registerTask('todo', ['clean', 'copy:todo', 'concurrent:dev']);
+    grunt.registerTask('default', ['clean', 'copy:css', 'concurrent:dev']);
 };

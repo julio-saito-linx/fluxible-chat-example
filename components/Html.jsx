@@ -26,7 +26,7 @@ var Html = React.createClass({
                 <meta charSet="utf-8" />
                 <title>{this.props.title}</title>
                 <meta name="viewport" content="width=device-width, user-scalable=no" />
-                <link rel="stylesheet" href="https://rawgit.com/facebook/flux/master/examples/flux-chat/css/chatapp.css" />
+                <link rel="stylesheet" href="/public/css/styles.css" />
             </head>
             <body>
                 <div id="app" dangerouslySetInnerHTML={{__html: this.props.markup}}></div>
