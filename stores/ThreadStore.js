@@ -79,22 +79,29 @@ var ThreadStore = createStore({
         };
     },
     receiveMessages: function (messages) {
-        var self = this;
-        this.dispatcher.waitFor('MessageStore', function () {
-            messages.forEach(function(message) {
+        this.dispatcher.waitFor('MessageStore', () => {
+
+            // set store
+            messages.forEach((message) => {
                 var threadID = message.threadID;
-                var thread = self.threads[threadID];
-                if (thread && thread.lastTimestamp > message.timestamp) {
+                var thread = this.threads[threadID];
+
+                // exit if message is older than thread
+                if (thread && thread.lastMessage.timestamp > message.timestamp) {
                     return;
                 }
-                self.threads[threadID] = {
-                    id: threadID,
-                    name: message.threadName,
-                    lastMessage: message
+
+                // set current thread
+                this.threads[threadID] = {
+                    id          : threadID,
+                    name        : message.threadName,
+
+                    // store only the last message
+                    lastMessage : message
                 };
             });
             debug('receiveMessages:emitChange');
-            self.emitChange();
+            this.emitChange();
         });
     },
     dehydrate: function () {

@@ -88,6 +88,10 @@ var MessageComposer = React.createClass({
             event.stopPropagation();
 
             if (this.state.text.trim()) {
+                if (!this.state.m_id || this.state.m_id.trim().length === 0) {
+                    this.setState({m_id: null});
+                }
+
                 this.context.executeAction(createMessage, {
                     m_id      : this.state.m_id,
                     author    : this.state.author.trim(),
@@ -95,8 +99,6 @@ var MessageComposer = React.createClass({
                 });
             }
             this.setState({
-                m_id   : '',
-                author : '',
                 text   : ''
             });
         }

@@ -11,11 +11,14 @@ module.exports = function (context, payload, done) {
 
     var message = threadStore.createMessage({
         timestamp : Date.now(),
-        m_id      : payload.m_id,
         authorName: payload.author,
         isRead    : true,
         text      : payload.text
     });
+
+    if (payload.m_id) {
+        message.m_id = payload.m_id;
+    }
 
     debug('dispatching RECEIVE_MESSAGES', message);
     context.dispatch('RECEIVE_MESSAGES', [message]);

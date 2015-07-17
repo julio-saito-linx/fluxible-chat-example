@@ -22,21 +22,25 @@ var MessageStore = createStore({
     },
     receiveMessages: function (messages) {
         debug('receiveMessages:messages', messages);
-        var self = this;
-        messages.forEach(function (message) {
-            self.messages[message.id] = message;
+
+        // set current message on store
+        messages.forEach((message) => {
+            this.messages[message.id] = message;
         });
-        self.sortedByDate = Object.keys(self.messages);
-        self.sortedByDate.sort(function(a, b) {
-            if (self.messages[a].date < self.messages[b].date) {
+
+        // sort messages by date
+        this.sortedByDate = Object.keys(this.messages);
+        this.sortedByDate.sort((a, b) => {
+            if (this.messages[a].date < this.messages[b].date) {
                 return -1;
-            } else if (self.messages[a].date > self.messages[b].date) {
+            } else if (this.messages[a].date > this.messages[b].date) {
                 return 1;
             }
             return 0;
         });
+
         debug('receiveMessages:emitChange');
-        self.emitChange();
+        this.emitChange();
     },
     openThread: function (payload) {
         var self = this;
