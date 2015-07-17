@@ -5,7 +5,7 @@
 'use strict';
 var createStore = require('fluxible/addons').createStore;
 var ThreadStore = require('./ThreadStore');
-var debug = require('debug')('MessageStore');
+var debug = require('debug')('store:MessageStore');
 
 
 var MessageStore = createStore({
@@ -13,14 +13,15 @@ var MessageStore = createStore({
     handlers: {
         'RECEIVE_MESSAGES': 'receiveMessages',
         'REMOVE_MESSAGE'  : 'receiveMessages',
-        'OPEN_THREAD'     : 'openThread'
+        'OPEN_THREAD'     : 'openThread',
+        //'SELECT_MESSAGE'  : 'receiveMessages',
     },
     initialize: function () {
         this.messages = {};
         this.sortedByDate = [];
     },
     receiveMessages: function (messages) {
-        debug('receiveMessages', messages);
+        debug('receiveMessages:messages', messages);
         var self = this;
         messages.forEach(function (message) {
             self.messages[message.id] = message;
@@ -34,6 +35,7 @@ var MessageStore = createStore({
             }
             return 0;
         });
+        debug('receiveMessages:emitChange');
         self.emitChange();
     },
     openThread: function (payload) {
@@ -45,6 +47,7 @@ var MessageStore = createStore({
                 message.isRead = true;
             }
         });
+        debug('openThread:emitChange');
         self.emitChange();
     },
     getAll: function () {
@@ -68,6 +71,25 @@ var MessageStore = createStore({
         var currentThreadID = this.dispatcher.getStore(ThreadStore).getCurrentID();
         return this.getAllForThread(currentThreadID);
     },
+
+    /**
+     * select the current message
+     */
+    selectMessage: function(payload) {
+
+        // unselect all
+        Object.keys(this.messages).forEach((key) => {
+            var message = this.messages[key];
+            message.isSelected = false;
+        });
+
+        // select current message
+        this.messages[payload.m_id].isSelected = true;
+
+        debug('selectMessage:emitChange');
+        this.emitChange();
+    },
+
     dehydrate: function () {
         return {
             messages: this.messages,

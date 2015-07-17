@@ -26,10 +26,23 @@ var MessageComposer = React.createClass({
 
     getInitialState: function() {
         return {
-            m_id: null,
-            author: 'Hendrix',
+            m_id: 'm_7',
+            author: 'Bill',
             text: ''
         };
+    },
+
+    componentWillReceiveProps: function(nextProps) {
+        this.props.messages.filter((item) => {
+            if (item.isSelected) {
+                console.log('\n>>---------\n item:', item, '\n>>---------\n');
+                this.setState({
+                    m_id: item.id,
+                    author: item.authorName,
+                    text: item.text,
+                });
+            }
+        });
     },
 
     render: function() {
@@ -76,12 +89,16 @@ var MessageComposer = React.createClass({
 
             if (this.state.text.trim()) {
                 this.context.executeAction(createMessage, {
-                    m_id   : this.state.m_id.trim(),
-                    author : this.state.author.trim(),
-                    text   : this.state.text.trim()
+                    m_id      : this.state.m_id,
+                    author    : this.state.author.trim(),
+                    text      : this.state.text.trim()
                 });
             }
-            this.setState({text: ''});
+            this.setState({
+                m_id   : '',
+                author : '',
+                text   : ''
+            });
         }
     }
 

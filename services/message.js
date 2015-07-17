@@ -71,6 +71,7 @@ module.exports = {
             callback(null, JSON.parse(JSON.stringify(_messages)));
         }, 10);
     },
+
     create: function(req, resource, params, body, config, callback) {
         _messages.push({
             id: params.id,
@@ -84,6 +85,7 @@ module.exports = {
             callback(null, _messages);
         }, 10);
     },
+
     delete: function(req, resource, params, config, callback) {
         _messages = _messages.filter(function(item) {
             if (params.id !== item.id) {
@@ -93,7 +95,18 @@ module.exports = {
         setTimeout(function () {
             callback(null, _messages);
         }, 10);
-    }
+    },
 
-    // update: function(resource, params, body, config, callback) {},
+    update: function(req, resource, params, body, config, callback) {
+        _messages = _messages.map(function(item) {
+            if (params.id === item.id) {
+                return params;
+            }
+            return item;
+        });
+        setTimeout(function () {
+            callback(null, _messages);
+        }, 10);
+
+    },
 };

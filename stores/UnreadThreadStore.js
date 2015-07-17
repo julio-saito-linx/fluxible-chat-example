@@ -5,7 +5,7 @@
 'use strict';
 var createStore = require('fluxible/addons').createStore;
 var ThreadStore = require('./ThreadStore');
-
+var debug = require('debug')('store:UnreadThreadStore');
 
 var UnreadThreadStore = createStore({
     storeName: 'UnreadThreadStore',
@@ -17,9 +17,11 @@ var UnreadThreadStore = createStore({
         this.messages = {};
     },
     receiveMessages: function (messages) {
+        debug('receiveMessages:emitChange');
         this.emitChange();
     },
     openThread: function (payload) {
+        debug('openThread:emitChange');
         this.emitChange();
     },
     getCount: function () {

@@ -18,6 +18,7 @@ var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var createMessage = require('../actions/createMessage');
 var removeMessage = require('../actions/removeMessage');
+var selectMessage = require('../actions/selectMessage');
 
 var MessageListItem = React.createClass({
 
@@ -149,8 +150,9 @@ var MessageListItem = React.createClass({
         return (
             <li className="message-list-item">
                 <h5 className="message-author-name">{message.authorName}</h5>
-                <button onClick={this._onClickDuplicate}>duplicate</button>
-                <button onClick={this._onClickRemove}>remove</button>
+                <button onClick={this._onClickSelect}>{message.isSelected ? 'selected' : 'edit'}</button>
+                <button onClick={this._onClickDuplicate}>clone</button>
+                <button onClick={this._onClickRemove}>del</button>
                 <div className="message-time">
                     {(new Date(message.timestamp)).toTimeString()}
                 </div>
@@ -164,6 +166,14 @@ var MessageListItem = React.createClass({
             // m_id   : this.props.message.m_id.trim(),
             author : this.props.message.authorName.trim(),
             text   : this.props.message.text.trim()
+        });
+    },
+
+    _onClickSelect: function(event, value) {
+        this.context.executeAction(selectMessage, {
+            m_id   : this.props.message.id,
+            author : this.props.message.authorName,
+            text   : this.props.message.text
         });
     },
 

@@ -14,7 +14,7 @@ var navigateAction = require('fluxible-router').navigateAction;
 var createElement = require('fluxible-addons-react').createElementWithContext;
 
 window.React = React; // For chrome dev tool support
-debug.enable('*');
+debug.enable('store:*');
 
 bootstrapDebug('rehydrating app');
 app.rehydrate(dehydratedState, function (err, context) {

@@ -45,7 +45,7 @@ var MessageSection = React.createClass({
                 <ul className="message-list" ref="messageList">
                     {messageListItems}
                 </ul>
-                <MessageComposer />
+                <MessageComposer messages={this.props.messages}/>
             </div>
         );
     },

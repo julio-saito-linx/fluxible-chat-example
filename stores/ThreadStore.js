@@ -4,7 +4,7 @@
  */
 'use strict';
 var createStore = require('fluxible/addons').createStore;
-var debug = require('debug')('ThreadStore');
+var debug = require('debug')('store:ThreadStore');
 
 
 var ThreadStore = createStore({
@@ -21,6 +21,7 @@ var ThreadStore = createStore({
     openThread: function (payload) {
         this.currentID = payload.threadID;
         this.threads[this.currentID].lastMessage.isRead = true;
+        debug('openThread:emitChange');
         this.emitChange();
     },
     get: function(id) {
@@ -92,6 +93,7 @@ var ThreadStore = createStore({
                     lastMessage: message
                 };
             });
+            debug('receiveMessages:emitChange');
             self.emitChange();
         });
     },
